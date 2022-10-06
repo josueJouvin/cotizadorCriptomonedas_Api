@@ -4,11 +4,17 @@ const moneda = document.querySelector('#moneda');
 const criptomonedaSelect = document.querySelector('#criptomonedas')
 const resultado = document.querySelector('#resultado')
 
-const cargarMonedas = () => {
+const cargarMonedas = async () => {
     const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=15&tsym=USD'
-    fetch(url)
-        .then(respuesta => respuesta.json())
-        .then(criptomoneda => selectCriptomonedas(criptomoneda.Data))
+    
+    try {
+        const respuesta = await fetch(url)
+        const criptomoneda = await respuesta.json()
+        const selectCript = selectCriptomonedas(criptomoneda.Data)
+        selectCriptomonedas(selectCript)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const selectCriptomonedas = (criptomoneda) => {
@@ -32,14 +38,24 @@ const validarForm = (e) => {
     consultarResultado(moneda.value, criptomonedaSelect.value)
 }
 
-const consultarResultado = (moneda,criptomoneda) => {
+const consultarResultado = async(moneda,criptomoneda) => {
     const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${moneda}&tsyms=${criptomoneda}`;
     spinner()
+    /*
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(cotizacion =>{ 
             mostrarHtml(cotizacion.DISPLAY[moneda][criptomoneda])
         })
+*/
+    try {
+        const respuesta = await fetch(url)
+        const cotizacion = await respuesta.json()
+        mostrarHtml(cotizacion.DISPLAY[moneda][criptomoneda])
+    } catch (error) {
+        console.log(error)
+    }
+        
 }
 
 const mostrarHtml = (cotizacion) => {
