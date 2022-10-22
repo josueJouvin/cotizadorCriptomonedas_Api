@@ -136,3 +136,9 @@ p.precio{
         transform: scale(1.0);
     }
 }
+
+@media (min-width: 1024px) {
+    .container{
+        height: 100vh;
+    }
+}
