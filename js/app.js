@@ -4,13 +4,17 @@ const moneda = document.querySelector('#moneda');
 const criptomonedaSelect = document.querySelector('#criptomonedas')
 const resultado = document.querySelector('#resultado')
 
+const obtenerCriptomonedas = criptomonedas => new Promise( resolve => {
+    resolve(criptomonedas);
+});
+
 const cargarMonedas = async () => {
     const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=15&tsym=USD'
     
     try {
         const respuesta = await fetch(url)
         const criptomoneda = await respuesta.json()
-        const selectCript = selectCriptomonedas(criptomoneda.Data)
+        const selectCript = await obtenerCriptomonedas(criptomoneda.Data)
         selectCriptomonedas(selectCript)
     } catch (error) {
         console.log(error)
